@@ -313,8 +313,8 @@ jobs:
           '
           tar -xf "$inspectionDirectory/app.tar" -C "$inspectionDirectory"
           extractedApps=("$inspectionDirectory"/*.app)
-          extractedName="${extractedApps[0]##*/}"
-          if [[ ${#extractedApps[@]} -ne 1 || "${extractedName,,}" != "markdirector.app" ]]; then
+          extractedName="$(printf '%s' "${extractedApps[0]##*/}" | tr '[:upper:]' '[:lower:]')"
+          if [[ ${#extractedApps[@]} -ne 1 || "$extractedName" != "markdirector.app" ]]; then
             echo '::error::更新包必须包含且仅包含一个 markdirector.app。'
             exit 1
           fi
@@ -335,8 +335,8 @@ jobs:
           hdiutil attach "$dmgPath" -readonly -nobrowse -mountpoint "$mountDirectory"
           trap 'hdiutil detach "$mountDirectory"' EXIT
           mountedApps=("$mountDirectory"/*.app)
-          mountedName="${mountedApps[0]##*/}"
-          if [[ ${#mountedApps[@]} -ne 1 || "${mountedName,,}" != "markdirector.app" ]]; then
+          mountedName="$(printf '%s' "${mountedApps[0]##*/}" | tr '[:upper:]' '[:lower:]')"
+          if [[ ${#mountedApps[@]} -ne 1 || "$mountedName" != "markdirector.app" ]]; then
             echo '::error::DMG 必须包含且仅包含一个 markdirector.app。'
             exit 1
           fi
