@@ -211,11 +211,11 @@ jobs:
           notarizationKeyBase64: ${{ secrets.MACOS_NOTARIZATION_KEY_BASE64 }}
         run: |
           set +x
-          : "${certificateBase64:?请配置 MACOS_CERTIFICATE_BASE64 Secret}"
-          : "${certificatePassword:?请配置 MACOS_CERTIFICATE_PASSWORD Secret}"
-          : "${notarizationKeyId:?请配置 MACOS_NOTARIZATION_KEY_ID Secret}"
-          : "${notarizationIssuerId:?请配置 MACOS_NOTARIZATION_ISSUER_ID Secret}"
-          : "${notarizationKeyBase64:?请配置 MACOS_NOTARIZATION_KEY_BASE64 Secret}"
+          if [[ -z "$certificateBase64" || -z "$certificatePassword" || -z "$notarizationKeyId" || -z "$notarizationIssuerId" || -z "$notarizationKeyBase64" ]]; then
+            echo '::warning::未配置 macOS 签名与公证凭据，本次构建跳过签名与公证；产物未签名，首次打开需在系统设置中手动放行。'
+            printf 'signed=0\n' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           umask 077
           certificatePath="$RUNNER_TEMP/markdirectorSigning.p12"
           keychainPath="$RUNNER_TEMP/markdirectorSigning.keychain-db"
@@ -250,6 +250,7 @@ jobs:
             '
             exit 1
           fi
+          printf 'signed=1\n' >> "$GITHUB_OUTPUT"
           printf 'identity=%s\n' "$identity" >> "$GITHUB_OUTPUT"
           printf 'notarizationKeyPath=%s\n' "$notarizationKeyPath" >> "$GITHUB_OUTPUT"
       - name: 为 Apple 公证票据网络错误启用有限重试
@@ -266,9 +267,10 @@ jobs:
           chmodSync(target, 0o755);
           writeFileSync(process.env.GITHUB_PATH, `${directory}\n`, { flag: "a" });
           '
-      - name: 构建 macOS 安装包及更新文件（自动签名与公证）
+      - name: 构建 macOS 安装包及更新文件（配置凭据时自动签名与公证）
         if: runner.os == 'macOS'
         env:
+          macCodesign: ${{ steps.signing.outputs.signed == '1' && '1' || '0' }}
           ELECTROBUN_DEVELOPER_ID: ${{ steps.signing.outputs.identity }}
           ELECTROBUN_APPLEAPIKEY: ${{ secrets.MACOS_NOTARIZATION_KEY_ID }}
           ELECTROBUN_APPLEAPIISSUER: ${{ secrets.MACOS_NOTARIZATION_ISSUER_ID }}
@@ -280,11 +282,12 @@ jobs:
           rm -f "$RUNNER_TEMP/markdirectorSigning.p12" "$RUNNER_TEMP/markdirectorNotarization.p8"
           keychainPath="$RUNNER_TEMP/markdirectorSigning.keychain-db"
           if [[ -f "$keychainPath" ]]; then
-            security delete-keychain "$keychainPath"
+            security delete-keychain "$keychainPath" || true
           fi
       - name: 验证 macOS 更新包与 DMG 安装镜像
         if: runner.os == 'macOS'
         env:
+          macCodesign: ${{ steps.signing.outputs.signed == '1' && '1' || '0' }}
           releaseDirectory: ${{ matrix.releaseFolder }}/${{ needs.prepare.outputs.version }}
           signingIdentity: ${{ steps.signing.outputs.identity }}
           packageArchitecture: ${{ matrix.arch }}

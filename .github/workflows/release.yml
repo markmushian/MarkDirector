@@ -124,7 +124,7 @@ jobs:
             "- 🐧 **Linux（Debian / Ubuntu）**：选择对应架构的 DEB，在下载目录执行 `sudo apt install ./markdirector-版本号-linux-架构.deb`，安装后从应用菜单打开。",
             "- 📱 **Android**：在手机上打开 APK，按系统提示允许此来源安装应用。后续版本可直接覆盖安装。",
             "",
-            "两种 Mac 应用与 DMG 镜像均使用 Developer ID Application 签名，并完成 Apple 公证。首次打开时，macOS 仍可能提示确认打开从互联网下载的应用。",
+            "Mac 应用与 DMG 镜像在配置 Apple 开发者凭据时使用 Developer ID Application 签名并完成 Apple 公证，首次打开 macOS 仍可能提示确认打开从互联网下载的应用；未配置凭据时提供未签名版本，首次打开需在“系统设置 → 隐私与安全性”中手动放行。",
             "旧版 Intel Mac 客户端首次迁移到统一 SDK 版本时，请下载完整 DMG 覆盖安装；旧版增量更新不能直接迁移。安装前请退出应用并备份原数据目录。",
             "",
             "---",
