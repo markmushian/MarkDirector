@@ -145,7 +145,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.3
-      - name: 上传到更新托管网站
+      - name: 上传到更新托管网站（配置凭据时）
         timeout-minutes: 60
         env:
           releaseVersion: ${{ needs.build.outputs.version }}
@@ -153,6 +153,10 @@ jobs:
           uploadPutUrl: ${{ secrets.TFROUTER_UPLOAD_PUT_URL }}
           uploadGetPutUrl: ${{ secrets.TFROUTER_UPLOAD_GET_PUT_URL }}
         run: |
+          if [[ -z "$uploadKey" || -z "$uploadPutUrl" || -z "$uploadGetPutUrl" ]]; then
+            echo '::warning::未配置更新托管网站（TFROUTER）上传凭据，跳过该步骤；本次仅发布 GitHub Release 资产。'
+            exit 0
+          fi
           bun -e '
           import { readdirSync } from "node:fs";
           import { extname, join } from "node:path";
