@@ -133,6 +133,18 @@ MarkDirector 采用 MIT 开源许可，可自行部署。第三方模型服务�
 
 <a href="./docs/screenshots/canvas.png"><img src="./docs/screenshots/canvas.png" alt="MarkDirector 创作画布与 AI Agent" width="80%" /></a><br /><sub>创作画布与 AI Agent</sub>
 
+<a href="./docs/screenshots/script-workbench.png"><img src="./docs/screenshots/script-workbench.png" alt="MarkDirector 剧本工作台：原文 / 节奏稿 / 分镜稿三栏对照" width="80%" /></a><br /><sub><b>剧本工作台</b> · 原文 / 节奏稿 / 分镜稿三栏对照，从剧本创作到成片发布 8 步全流程流水线</sub>
+
+<a href="./docs/screenshots/production-docs.png"><img src="./docs/screenshots/production-docs.png" alt="MarkDirector 制作文档：导演手册等一键生成" width="80%" /></a><br /><sub><b>制作文档</b> · 企划案、分镜表、节拍表、导演手册、发布包一键生成，全文随时查看与复制</sub>
+
+<a href="./docs/screenshots/genre-templates.png"><img src="./docs/screenshots/genre-templates.png" alt="MarkDirector 全流程题材模板" width="80%" /></a><br /><sub><b>题材模板</b> · 内置现代重生、古代穿越、都市逆袭、宫斗、民俗怪谈、末日废土等全流程题材模板，一句话点子直接开工</sub>
+
+<a href="./docs/screenshots/asset-prompts.png"><img src="./docs/screenshots/asset-prompts.png" alt="MarkDirector 资产提示词库" width="80%" /></a><br /><sub><b>资产提示词库</b> · 角色三视图 / 道具 / 场景提示词按卡生成，画风统一锁定，可直接粘贴到出图与视频工具</sub>
+
+<a href="./docs/screenshots/directing-stage-3d.png"><img src="./docs/screenshots/directing-stage-3d.png" alt="MarkDirector 3D 导演台" width="80%" /></a><br /><sub><b>3D 导演台</b> · 在 3D 场景里取景运镜、添加关键帧导出视频节点，模型动画与运镜同步生成</sub>
+
+<a href="./docs/screenshots/editing-pro.png"><img src="./docs/screenshots/editing-pro.png" alt="MarkDirector 剪辑台 Pro" width="80%" /></a><br /><sub><b>剪辑台 Pro</b> · 素材库、时间轴与属性面板的专业剪辑布局，基于 ffmpeg 快速合成成片</sub>
+
 </div>
 
 ---

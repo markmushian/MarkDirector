@@ -130,6 +130,18 @@ Supported languages: 简体中文, 繁體中文, English, 日本語, Русск�
 
 <a href="../screenshots/canvas.png"><img src="../screenshots/canvas.png" alt="MarkDirector creative canvas and AI Agent" width="80%" /></a><br /><sub>Creative canvas and AI Agent</sub>
 
+<a href="../screenshots/script-workbench.png"><img src="../screenshots/script-workbench.png" alt="MarkDirector script workbench: original / beat / storyboard three-pane view" width="80%" /></a><br /><sub><b>Script workbench</b> · Original / beat / storyboard in three synced panes, with an 8-step pipeline from script to publishing</sub>
+
+<a href="../screenshots/production-docs.png"><img src="../screenshots/production-docs.png" alt="MarkDirector production documents: director handbook and more" width="80%" /></a><br /><sub><b>Production documents</b> · One-click plans, shot lists, beat sheets, director handbooks and publishing kits, viewable and copyable in full</sub>
+
+<a href="../screenshots/genre-templates.png"><img src="../screenshots/genre-templates.png" alt="MarkDirector full-pipeline genre templates" width="80%" /></a><br /><sub><b>Genre templates</b> · Built-in full-pipeline templates — rebirth, time travel, urban, palace intrigue, folk mystery, wasteland and more — start from a one-line idea</sub>
+
+<a href="../screenshots/asset-prompts.png"><img src="../screenshots/asset-prompts.png" alt="MarkDirector asset prompt library" width="80%" /></a><br /><sub><b>Asset prompt library</b> · Character sheets, props and scene prompts generated per card with a locked style, ready to paste into image and video tools</sub>
+
+<a href="../screenshots/directing-stage-3d.png"><img src="../screenshots/directing-stage-3d.png" alt="MarkDirector 3D directing stage" width="80%" /></a><br /><sub><b>3D directing stage</b> · Frame shots in a 3D scene, add keyframes and export video nodes — model animation and camera moves generated together</sub>
+
+<a href="../screenshots/editing-pro.png"><img src="../screenshots/editing-pro.png" alt="MarkDirector Editing Pro" width="80%" /></a><br /><sub><b>Editing Pro</b> · Pro editing layout with media library, timeline and properties panel, ffmpeg-based final compositing</sub>
+
 </div>
 
 ---
