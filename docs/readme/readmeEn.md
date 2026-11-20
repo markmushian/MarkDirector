@@ -284,7 +284,6 @@ https://github.com/user-attachments/assets/2d9fddac-dfdf-4640-b030-b09d7f7287e9
 | Video model | Seedance 2.0 |
 | Image model | GPT Image 2 |
 | Language model | Claude Opus 4.6 |
-| Model API costs | Approximately ¥130 CNY (Chinese yuan): about ¥10 for language, ¥120 for video, and less than ¥1 for images. |
 
 These costs are the recorded figures for this example and are provided for reference only. Actual costs depend on the model service, number of generations, and parameters. The demo video is a compressed 480p version.
 
