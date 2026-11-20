@@ -1,20 +1,14 @@
 <template>
-  <el-dialog v-model="open" title="访问验证" width="min(380px, 92vw)" appendToBody :closeOnClickModal="false" :showClose="!locked">
-    <p class="guardHint">{{ locked ? "本工作台处于受保护状态，输入访问码以继续。" : "输入访问码以开启演示保护；开启后重启应用依然生效。" }}</p>
-    <el-input v-model="code" type="password" placeholder="访问码" showPassword @keyup.enter="submit" />
-    <template #footer>
-      <el-button @click="open = false">取消</el-button>
-      <el-button type="primary" :loading="busy" @click="submit">{{ locked ? "解锁" : "开启保护" }}</el-button>
-    </template>
-  </el-dialog>
   <teleport to="body">
-    <div v-if="locked" class="accessShield">
-      <div class="shieldCard">
+    <div v-if="locked" class="accessShield" @click="asked = true">
+      <div class="shieldCard" @click.stop="asked = true">
         <img :src="logoUrl" alt="" class="shieldLogo" />
         <h2 class="shieldTitle">访问验证</h2>
-        <p class="shieldHint">本工作台处于受保护状态，输入访问码以继续使用。</p>
-        <el-input v-model="code" type="password" placeholder="访问码" class="shieldInput" @keyup.enter="submit" />
-        <el-button type="primary" class="shieldButton" :loading="busy" @click="submit">解锁</el-button>
+        <p class="shieldHint">{{ asked ? "输入访问码以继续使用。" : "本工作台处于受保护状态，点击屏幕任意位置继续。" }}</p>
+        <template v-if="asked">
+          <el-input v-model="code" type="password" placeholder="访问码" class="shieldInput" @keyup.enter="submit" />
+          <el-button type="primary" class="shieldButton" :loading="busy" @click="submit">解锁</el-button>
+        </template>
       </div>
     </div>
   </teleport>
@@ -28,10 +22,9 @@ import logoUrl from "@markdirector/assets/logo.svg";
 
 // 演示期访问控制：标识只以摘要形式参与比对，明文不出现在任何文件里。
 const digestSalt = "mdx7::";
-const expectedDigest = "c448802e18eec659a8b34b0255084f839de50c97b06be4422c5d915ed5990540";
 
-const open = ref(false);
 const locked = ref(false);
+const asked = ref(false);
 const code = ref("");
 const busy = ref(false);
 let taps = 0;
@@ -47,14 +40,35 @@ function applyInert() {
   if (root) (root as HTMLElement & { inert?: boolean }).inert = locked.value;
 }
 
+const workspaceHeaders = { "x-markdirector-workspace": "1", "x-toonflow-workspace": "1" };
+
 async function query() {
   try {
-    const { data } = await axios.get("/api/sysinfo", { headers: { "x-markdirector-workspace": "1", "x-toonflow-workspace": "1" } });
+    const { data } = await axios.get("/api/sysinfo", { headers: workspaceHeaders });
     if (data?.code === 200) {
       locked.value = data.data?.s === true;
       applyInert();
     }
   } catch { /* 查询失败时保持默认可用 */ }
+}
+
+async function armLock() {
+  if (busy.value || locked.value) return;
+  busy.value = true;
+  try {
+    const { data } = await axios.post("/api/sysinfo", { v: "arm" }, { headers: workspaceHeaders });
+    if (data?.code === 200 && data.data?.r === "on") {
+      locked.value = true;
+      asked.value = false;
+      code.value = "";
+      applyInert();
+      ElMessage.success("已锁定，重启后依然生效");
+    }
+  } catch {
+    ElMessage.error("操作失败，请重试");
+  } finally {
+    busy.value = false;
+  }
 }
 
 async function submit() {
@@ -63,22 +77,15 @@ async function submit() {
   const digestText = await digest(digestSalt + value);
   busy.value = true;
   try {
-    const { data } = await axios.post("/api/sysinfo", { v: digestText }, { headers: { "x-markdirector-workspace": "1", "x-toonflow-workspace": "1" } });
-    const result = data?.data?.r as string | undefined;
-    if (data?.code !== 200 || result === "denied") {
-      ElMessage.error("访问码不正确");
-      return;
-    }
-    if (result === "on") {
-      locked.value = true;
-      applyInert();
-      open.value = false;
-      ElMessage.success("演示保护已开启，重启后依然生效");
-    } else if (result === "off") {
+    const { data } = await axios.post("/api/sysinfo", { v: digestText }, { headers: workspaceHeaders });
+    if (data?.code === 200 && data.data?.r === "off") {
       locked.value = false;
+      asked.value = false;
+      code.value = "";
       applyInert();
-      open.value = false;
       ElMessage.success("已解锁");
+    } else {
+      ElMessage.error("访问码不正确");
     }
     code.value = "";
   } catch {
@@ -89,6 +96,7 @@ async function submit() {
 }
 
 function onDocumentClick(event: MouseEvent) {
+  if (locked.value) return;
   const target = event.target instanceof Element ? event.target : null;
   if (!target || !target.closest(".brand, .brandLogo, .brandName, .brandMark, .sidebarLogo, .agentLogo")) return;
   const now = Date.now();
@@ -99,7 +107,7 @@ function onDocumentClick(event: MouseEvent) {
   taps += 1;
   if (taps >= 5) {
     taps = 0;
-    open.value = true;
+    void armLock();
   }
 }
 
@@ -111,12 +119,6 @@ onBeforeUnmount(() => document.removeEventListener("click", onDocumentClick, tru
 </script>
 
 <style scoped lang="scss">
-.guardHint {
-  margin: 0 0 14px;
-  color: var(--el-text-color-secondary);
-  font-size: 13px;
-  line-height: 1.6;
-}
 .accessShield {
   position: fixed;
   inset: 0;
@@ -126,6 +128,7 @@ onBeforeUnmount(() => document.removeEventListener("click", onDocumentClick, tru
   justify-content: center;
   background: #10131a;
   backdrop-filter: blur(6px);
+  cursor: pointer;
 }
 .shieldCard {
   width: min(360px, 90vw);
@@ -135,6 +138,7 @@ onBeforeUnmount(() => document.removeEventListener("click", onDocumentClick, tru
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   text-align: center;
+  cursor: default;
 }
 .shieldLogo {
   width: 56px;

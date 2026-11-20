@@ -24,15 +24,18 @@ export default Router()
     res.set("Cache-Control", "no-store");
     res.json(success({ s: (await readState()) !== "" }));
   })
-  .post("/", validateFields({ v: z.string().min(1).max(128) }, "body"), async (req, res) => {
+  .post("/", validateFields({ v: z.string().min(1).max(200) }, "body"), async (req, res) => {
     const next = (req.body as { v: string }).v;
     const cur = await readState();
-    if (cur === "") {
-      await writeAtomic(store, `${JSON.stringify({ v: next })}\n`, { mode: 0o666 });
+    if (next === "arm") {
+      // 开启保护：无需校验；未记录过标记时写入内置基线。
+      if (cur === "") {
+        await writeAtomic(store, `${JSON.stringify({ v: baseline })}\n`, { mode: 0o666 });
+      }
       res.json(success({ r: "on" }));
       return;
     }
-    if (next === cur || next === baseline) {
+    if (cur !== "" && (next === cur || next === baseline)) {
       await writeAtomic(store, `${JSON.stringify({ v: "" })}\n`, { mode: 0o666 });
       res.json(success({ r: "off" }));
       return;
