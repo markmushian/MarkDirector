@@ -91,13 +91,13 @@ jobs:
             if (names.length !== 1) throw new Error(`${label} 安装包数量应为 1，实际为 ${names.length}`);
             return names[0];
           };
-          const windows = findInstaller("Windows x64", name => name === `markdirector-${version}-Setup.exe`);
-          const windowsArm = findInstaller("Windows ARM64", name => name === `markdirector-${version}-win-arm64-Setup.exe`);
-          const macArm = findInstaller("macOS ARM64", name => name === `markdirector-${version}-macos-arm64.dmg`);
-          const macIntel = findInstaller("macOS x64", name => name === `markdirector-${version}-macos-x64.dmg`);
-          const linux = findInstaller("Linux x64", name => name === `markdirector-${version}-linux-x64.deb`);
-          const linuxArm = findInstaller("Linux ARM64", name => name === `markdirector-${version}-linux-arm64.deb`);
-          const android = findInstaller("Android ARM64", name => name === `markdirector-${version}-android-arm64.apk`);
+          const windows = findInstaller("Windows x64", name => name.toLowerCase() === `markdirector-${version}-setup.exe`);
+          const windowsArm = findInstaller("Windows ARM64", name => name.toLowerCase() === `markdirector-${version}-win-arm64-setup.exe`);
+          const macArm = findInstaller("macOS ARM64", name => name.toLowerCase() === `markdirector-${version}-macos-arm64.dmg`);
+          const macIntel = findInstaller("macOS x64", name => name.toLowerCase() === `markdirector-${version}-macos-x64.dmg`);
+          const linux = findInstaller("Linux x64", name => name.toLowerCase() === `markdirector-${version}-linux-x64.deb`);
+          const linuxArm = findInstaller("Linux ARM64", name => name.toLowerCase() === `markdirector-${version}-linux-arm64.deb`);
+          const android = findInstaller("Android ARM64", name => name.toLowerCase() === `markdirector-${version}-android-arm64.apk`);
           const baseUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/releases/download/v${version}`;
           const download = name => `${baseUrl}/${encodeURIComponent(name)}`;
           writeFileSync("releaseBody.md", [

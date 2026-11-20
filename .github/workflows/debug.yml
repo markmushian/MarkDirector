@@ -312,7 +312,13 @@ jobs:
           await write(join(process.env.inspectionDirectory, "app.tar"), Bun.zstdDecompressSync(await file(join(directory, archives[0])).arrayBuffer()));
           '
           tar -xf "$inspectionDirectory/app.tar" -C "$inspectionDirectory"
-          app="$inspectionDirectory/markdirector.app"
+          extractedApps=("$inspectionDirectory"/*.app)
+          extractedName="${extractedApps[0]##*/}"
+          if [[ ${#extractedApps[@]} -ne 1 || "${extractedName,,}" != "markdirector.app" ]]; then
+            echo '::error::更新包必须包含且仅包含一个 markdirector.app。'
+            exit 1
+          fi
+          app="${extractedApps[0]}"
           test -s "$app/Contents/Resources/AppIcon.icns"
           test -s "$app/Contents/Resources/app/bun/index.js"
           test -x "$app/Contents/MacOS/bun"
@@ -329,11 +335,12 @@ jobs:
           hdiutil attach "$dmgPath" -readonly -nobrowse -mountpoint "$mountDirectory"
           trap 'hdiutil detach "$mountDirectory"' EXIT
           mountedApps=("$mountDirectory"/*.app)
-          if [[ ${#mountedApps[@]} -ne 1 || "${mountedApps[0]}" != "$mountDirectory/markdirector.app" ]]; then
+          mountedName="${mountedApps[0]##*/}"
+          if [[ ${#mountedApps[@]} -ne 1 || "${mountedName,,}" != "markdirector.app" ]]; then
             echo '::error::DMG 必须包含且仅包含一个 markdirector.app。'
             exit 1
           fi
-          app="$mountDirectory/markdirector.app"
+          app="${mountedApps[0]}"
           test -s "$app/Contents/Resources/AppIcon.icns"
           test -s "$app/Contents/Resources/app/bun/index.js"
           test -x "$app/Contents/MacOS/bun"
