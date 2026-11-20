@@ -1,0 +1,30 @@
+{
+  "name": "@markdirector/multi-tenant-admin-web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.vue",
+    "./routes": "./routes.ts"
+  },
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@markdirector/i18n": "workspace:*",
+    "@markdirector/multi-tenant-billing": "workspace:*",
+    "@markdirector/multi-tenant-models": "workspace:*",
+    "@markdirector/multi-tenant-source-mapping": "workspace:*",
+    "@markdirector/provider-web": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tabler/icons-vue": "^3.46.0",
+    "element-plus": "^2.14.5",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vue-tsc": "^3.3.11"
+  }
+}

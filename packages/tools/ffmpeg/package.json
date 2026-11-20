@@ -1,0 +1,17 @@
+{
+  "name": "@markdirector/tool-ffmpeg",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build.ts",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@markdirector/ffmpeg": "workspace:*",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@markdirector/tools-scaffold": "workspace:*"
+  }
+}

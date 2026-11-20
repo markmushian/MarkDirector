@@ -1,0 +1,16 @@
+{
+  "name": "@markdirector/multi-tenant-billing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./config": "./config.ts"
+  },
+  "scripts": { "typecheck": "tsc" },
+  "dependencies": {
+    "@markdirector/multi-tenant-db": "workspace:*",
+    "@markdirector/multi-tenant-models": "workspace:*",
+    "zod": "^4.6.2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@markdirector/startup",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@markdirector/file": "workspace:*"
+  }
+}

@@ -1,0 +1,164 @@
+// ============================================================
+// MarkDirector · Director's Console theme
+// 纯视觉覆盖层：只重写 CSS 变量与装饰性样式，不含任何功能逻辑。
+// Vue Flow 的 --vf-* 已在 App.vue 映射到 --el-*，会自动跟随本主题。
+// 注意：--el-color-primary* 由 appearance.ts 在运行时写入 inline style，
+// 因此这里不对其使用 !important，主色统一在 stores/settings.ts 配置。
+// ============================================================
+
+:root {
+  --md-font-sans: "PingFang SC", "Microsoft YaHei", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --md-font-display: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --md-gold: #caa04c;
+  --md-gold-soft: #e6c079;
+  --md-gold-faint: color-mix(in srgb, var(--md-gold) 16%, transparent);
+
+  --el-font-family: var(--md-font-sans);
+  --el-font-size-base: 14px;
+}
+
+// ---------- 浅色主题（暖白纸张感）----------
+html:root:not(.dark) {
+  --el-bg-color: #f6f3ec;
+  --el-bg-color-page: #efebe2;
+  --el-bg-color-overlay: #fffdf8;
+
+  --el-text-color-primary: #2b2720;
+  --el-text-color-regular: #443e34;
+  --el-text-color-secondary: #7c7467;
+  --el-text-color-placeholder: #a49b8c;
+  --el-text-color-disabled: #bdb5a7;
+
+  --el-border-color: #ded6c7;
+  --el-border-color-light: #e8e2d7;
+  --el-border-color-lighter: #efeae1;
+  --el-border-color-extra-light: #f5f1ea;
+  --el-border-color-dark: #cdc4b3;
+  --el-border-color-darker: #b9b0a0;
+
+  --el-fill-color: #efeae0;
+  --el-fill-color-light: #f4f0e8;
+  --el-fill-color-lighter: #f8f5ef;
+  --el-fill-color-extra-light: #fbf9f4;
+  --el-fill-color-dark: #e5dfd3;
+  --el-fill-color-darker: #d9d2c3;
+  --el-fill-color-blank: #fffdf8;
+
+  --el-mask-color: rgba(250, 247, 240, 0.88);
+  --el-mask-color-extra-light: rgba(250, 247, 240, 0.62);
+}
+
+// ---------- 深色主题（默认 · 剪辑工作区深灰）----------
+html.dark {
+  --el-bg-color: #191d24 !important;
+  --el-bg-color-page: #101318 !important;
+  --el-bg-color-overlay: #232934 !important;
+
+  --el-text-color-primary: #f0f5fb !important;
+  --el-text-color-regular: #d6e2ef !important;
+  --el-text-color-secondary: #acbdd0 !important;
+  --el-text-color-placeholder: #8fa4ba !important;
+  --el-text-color-disabled: #8294a9 !important;
+
+  --el-border-color: #475365 !important;
+  --el-border-color-light: #3d4858 !important;
+  --el-border-color-lighter: #343d4b !important;
+  --el-border-color-extra-light: #303947 !important;
+  --el-border-color-dark: #526174 !important;
+  --el-border-color-darker: #697b91 !important;
+
+  --el-fill-color: #343e50 !important;
+  --el-fill-color-light: #343d4b !important;
+  --el-fill-color-lighter: #2a3240 !important;
+  --el-fill-color-extra-light: #202631 !important;
+  --el-fill-color-dark: #394557 !important;
+  --el-fill-color-darker: #465267 !important;
+  --el-fill-color-blank: #232934 !important;
+
+  --el-mask-color: rgba(12, 12, 14, 0.9) !important;
+  --el-mask-color-extra-light: rgba(12, 12, 14, 0.66) !important;
+
+  --el-box-shadow-light: 0 6px 24px rgba(0, 0, 0, 0.45);
+  --el-box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+}
+
+// ---------- 全局字体与字距 ----------
+html {
+  font-family: var(--md-font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+// ---------- 卡片 / 面板：更利落的描边 ----------
+.dark .el-card,
+.dark .el-dialog,
+.dark .el-drawer {
+  border-color: var(--el-border-color-light);
+}
+
+// ---------- 主按钮：金色底 + 深色字，提升对比 ----------
+.dark .el-button--primary:not(.is-plain):not(.is-text) {
+  --el-button-text-color: #17130b;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+// ---------- 品牌字距 ----------
+.brandName,
+.brand h1,
+.brandLogo + h1 {
+  letter-spacing: 0.06em;
+}
+
+.dark .vue-flow {
+  --vf-node-color: var(--el-border-color-dark);
+}
+
+// ---------- 滚动条：更细、更克制 ----------
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--el-border-color-dark);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--md-gold);
+}
+
+html.dark {
+  --el-box-shadow-light: 0 3px 12px #111d2e40;
+  --el-box-shadow: 0 12px 32px #111d2e66;
+}
+
+:is(.el-button, .el-input__wrapper, .el-select__wrapper, .el-card) {
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+:where(button, [tabindex]):focus-visible {
+  outline: 2px solid var(--el-color-primary);
+  outline-offset: 2px;
+}
+@media (hover: hover) {
+  :is(.promptCard, .projectCard, .emptyProject, .welcomeSuggestion, .modelButton):hover,
+  .promptCard:focus-within {
+    border-color: var(--el-color-primary);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--el-color-primary) 35%, transparent);
+  }
+  .vue-flow__node:not(.selected):hover .nodeSkeleton {
+    outline: 1px solid var(--el-border-color-darker);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.el-button, .el-input__wrapper, .el-select__wrapper, .el-card) { transition: none; }
+}
+
+html.dark :is(.floatingAgent, .promptCard, .projectCard, .nodeSkeleton) {
+  border-color: var(--el-border-color);
+}
+html.dark .floatingAgent { box-shadow: 0 12px 36px #05070a90; }
+html.dark .nodeSkeleton { --vf-node-color: var(--el-border-color); }
