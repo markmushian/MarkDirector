@@ -22,8 +22,8 @@
 
 <a href="https://git.io/typing-svg">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&size=40&duration=3000&pause=1000&color=FFFFFF&center=true&vCenter=true&width=600&lines=MarkDirector;AI%20Short%20Drama%20Studio;Turn%20ideas%20into%20stories" />
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=40&duration=3000&pause=1000&color=000000&center=true&vCenter=true&width=600&lines=MarkDirector;AI%20Short%20Drama%20Studio;Turn%20ideas%20into%20stories" alt="MarkDirector · AI Short Drama Studio · Turn ideas into stories" width="600" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=3000&pause=1000&color=FFFFFF&center=true&vCenter=true&width=480&lines=MarkDirector;AI%20Short%20Drama%20Studio;Turn%20ideas%20into%20stories" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=3000&pause=1000&color=000000&center=true&vCenter=true&width=480&lines=MarkDirector;AI%20Short%20Drama%20Studio;Turn%20ideas%20into%20stories" alt="MarkDirector · AI Short Drama Studio · Turn ideas into stories" width="480" />
   </picture>
 </a>
 
